@@ -85,7 +85,7 @@ export default function AiTripPlanner() {
       setMessages(prev => [...prev, assistantMessage]);
     } catch (err) {
       console.error("Chat error:", err);
-      setError("Sorry, I couldn&apos;t connect to the AI service. Please check your connection and try again.");
+      setError("Sorry, I couldn't connect to the AI service. Please check your API key and try again.");
     } finally {
       setIsLoading(false);
     }

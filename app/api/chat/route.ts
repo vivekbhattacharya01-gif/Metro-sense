@@ -1,4 +1,4 @@
-import { streamText, consumeStream } from "ai";
+import Anthropic from "@anthropic-ai/sdk";
 
 export const maxDuration = 30;
 
@@ -14,37 +14,32 @@ estimated time, fare, and one smart tip (crowd level, best coach, exit gate, etc
 Keep responses clear, structured, and concise. Use Indian English.`;
 
 export async function POST(req: Request) {
-  const { messages, systemPrompt } = await req.json();
+  try {
+    const { messages, systemPrompt } = await req.json();
 
-  // Convert simple message format to model messages
-  const modelMessages = messages.map((m: { role: string; content: string }) => ({
-    role: m.role as "user" | "assistant",
-    content: m.content,
-  }));
+    const client = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
 
-  const result = streamText({
-    model: "anthropic/claude-sonnet-4-20250514",
-    system: systemPrompt || SYSTEM_PROMPT,
-    messages: modelMessages,
-    abortSignal: req.signal,
-  });
+    const response = await client.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1024,
+      system: systemPrompt || SYSTEM_PROMPT,
+      messages: messages.map((m: { role: string; content: string }) => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      })),
+    });
 
-  // Collect streamed text and return as JSON for simpler client handling
-  let fullContent = "";
-  
-  const stream = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of (await result).textStream) {
-        fullContent += chunk;
-        controller.enqueue(new TextEncoder().encode(chunk));
-      }
-      controller.close();
-    }
-  });
+    const text =
+      response.content[0].type === "text" ? response.content[0].text : "";
 
-  // For simpler client integration, we'll return a non-streaming JSON response
-  const response = await result;
-  const text = await response.text;
-
-  return Response.json({ content: text });
+    return Response.json({ content: text });
+  } catch (error: any) {
+    console.error("Anthropic API error:", error);
+    return Response.json(
+      { error: error.message || "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
