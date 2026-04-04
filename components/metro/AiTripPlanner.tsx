@@ -101,9 +101,9 @@ export default function AiTripPlanner() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-180px)] max-h-[600px]">
+    <div className="flex flex-col h-[calc(100vh-180px)] max-h-150">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-purple-600 to-pink-600 border-0 text-white mb-4 shrink-0">
+      <Card className="bg-linear-to-r from-purple-600 to-pink-600 border-0 text-white mb-4 shrink-0">
         <CardContent className="pt-6 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-full bg-white/20">
@@ -122,7 +122,7 @@ export default function AiTripPlanner() {
         <ScrollArea className="flex-1 p-4" ref={scrollRef}>
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6">
-              <div className="p-4 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 mb-4">
+              <div className="p-4 rounded-full bg-linear-to-r from-purple-100 to-pink-100 mb-4">
                 <Sparkles className="h-8 w-8 text-purple-600" />
               </div>
               <h3 className="font-semibold text-lg mb-2">How can I help you today?</h3>
@@ -140,7 +140,7 @@ export default function AiTripPlanner() {
                   <div
                     className={`max-w-[85%] rounded-2xl p-4 ${
                       message.role === "user"
-                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-br-md"
+                        ? "bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-br-md"
                         : "bg-white border-2 border-purple-200 rounded-bl-md"
                     }`}
                   >
@@ -212,7 +212,7 @@ export default function AiTripPlanner() {
             <Button 
               type="submit" 
               disabled={!input.trim() || isLoading}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90"
+              className="bg-linear-to-r from-purple-600 to-pink-600 hover:opacity-90"
             >
               <Send className="h-4 w-4" />
             </Button>
