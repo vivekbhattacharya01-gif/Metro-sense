@@ -1,5 +1,3 @@
-import Anthropic from "@anthropic-ai/sdk";
-
 export const maxDuration = 30;
 
 const SYSTEM_PROMPT = `You are MetroSense, an expert Delhi Metro assistant. 
@@ -17,26 +15,50 @@ export async function POST(req: Request) {
   try {
     const { messages, systemPrompt } = await req.json();
 
-    const client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      return Response.json(
+        { error: "Groq API key not configured" },
+        { status: 500 }
+      );
+    }
+
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: systemPrompt || SYSTEM_PROMPT },
+          ...messages.map((m: { role: string; content: string }) => ({
+            role: m.role,
+            content: m.content,
+          })),
+        ],
+        max_tokens: 1024,
+        temperature: 0.7,
+      }),
     });
 
-    const response = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1024,
-      system: systemPrompt || SYSTEM_PROMPT,
-      messages: messages.map((m: { role: string; content: string }) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      })),
-    });
+    if (!response.ok) {
+      const errBody = await response.json();
+      console.error("Groq API error:", errBody);
+      return Response.json(
+        { error: errBody?.error?.message || "Groq API error" },
+        { status: 500 }
+      );
+    }
 
-    const text =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    const data = await response.json();
+    const text = data?.choices?.[0]?.message?.content ||
+      "Sorry, I could not generate a response. Please try again.";
 
     return Response.json({ content: text });
   } catch (error: any) {
-    console.error("Anthropic API error:", error);
+    console.error("Server error:", error);
     return Response.json(
       { error: error.message || "Internal server error" },
       { status: 500 }

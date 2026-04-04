@@ -122,8 +122,8 @@ export default function AiTripPlanner() {
         <ScrollArea className="flex-1 p-4" ref={scrollRef}>
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6">
-              <div className="p-4 rounded-full bg-linear-to-r from-purple-100 to-pink-100 mb-4">
-                <Sparkles className="h-8 w-8 text-purple-600" />
+              <div className="p-4 rounded-full bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-950 dark:to-pink-950 mb-4">
+                <Sparkles className="h-8 w-8 text-purple-600 dark:text-purple-400" />
               </div>
               <h3 className="font-semibold text-lg mb-2">How can I help you today?</h3>
               <p className="text-muted-foreground text-sm max-w-xs">
@@ -141,14 +141,18 @@ export default function AiTripPlanner() {
                     className={`max-w-[85%] rounded-2xl p-4 ${
                       message.role === "user"
                         ? "bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-br-md"
-                        : "bg-white border-2 border-purple-200 rounded-bl-md"
+                        : "bg-white dark:bg-zinc-800 border-2 border-purple-200 dark:border-purple-800 rounded-bl-md"
                     }`}
                   >
                     <div className="flex items-start gap-2">
                       {message.role === "assistant" && (
-                        <Bot className="h-5 w-5 text-purple-600 shrink-0 mt-0.5" />
+                        <Bot className="h-5 w-5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                       )}
-                      <div className={`text-sm whitespace-pre-wrap ${message.role === "user" ? "" : "text-foreground"}`}>
+                      <div className={`text-sm whitespace-pre-wrap ${
+                        message.role === "user"
+                          ? "text-white"
+                          : "text-gray-800 dark:text-gray-100"
+                      }`}>
                         {message.content}
                       </div>
                       {message.role === "user" && (
@@ -160,10 +164,10 @@ export default function AiTripPlanner() {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white border-2 border-purple-200 rounded-2xl rounded-bl-md p-4">
+                  <div className="bg-white dark:bg-zinc-800 border-2 border-purple-200 dark:border-purple-800 rounded-2xl rounded-bl-md p-4">
                     <div className="flex items-center gap-2">
-                      <Bot className="h-5 w-5 text-purple-600" />
-                      <Loader2 className="h-4 w-4 animate-spin text-purple-600" />
+                      <Bot className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                      <Loader2 className="h-4 w-4 animate-spin text-purple-600 dark:text-purple-400" />
                       <span className="text-sm text-muted-foreground">Thinking...</span>
                     </div>
                   </div>
@@ -171,7 +175,7 @@ export default function AiTripPlanner() {
               )}
               {error && (
                 <div className="flex justify-center">
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-600">
+                  <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-3 text-sm text-red-600 dark:text-red-400">
                     {error}
                   </div>
                 </div>
@@ -189,7 +193,7 @@ export default function AiTripPlanner() {
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs border-purple-200 hover:bg-purple-50 hover:border-purple-300"
+                  className="text-xs border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-950 hover:border-purple-300 dark:text-purple-300"
                   onClick={() => handleChipClick(chip)}
                 >
                   {chip}
