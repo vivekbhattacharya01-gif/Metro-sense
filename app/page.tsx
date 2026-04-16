@@ -21,7 +21,7 @@ import { useLanguage } from "@/lib/language-context";
 import Dashboard from "@/components/metro/Dashboard";
 import RealTimeTracker from "@/components/metro/RealTimeTracker";
 import RouteFinder from "@/components/metro/RouteFinder";
-import TravelAlarm from "@/components/metro/TravelAlarm";
+import TravelAlarmReal from "@/components/metro/TravelAlarmReal";
 import FareCalculator from "@/components/metro/FareCalculator";
 import LiveStatus from "@/components/metro/LiveStatus";
 import StationInfo from "@/components/metro/StationInfo";
@@ -101,7 +101,7 @@ export default function MetroSenseApp() {
               <RouteFinder />
             </TabsContent>
             <TabsContent value="alarm" className="mt-0">
-              <TravelAlarm />
+              <TravelAlarmReal />
             </TabsContent>
             <TabsContent value="fare" className="mt-0">
               <FareCalculator />
