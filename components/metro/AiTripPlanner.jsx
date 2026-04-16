@@ -3,7 +3,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Bot, Send, User, Sparkles, Loader2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { METRO_SYSTEM_PROMPT } from '@/lib/aiConfig.js';
 
 const SUGGESTION_CHIPS = [
@@ -18,18 +17,24 @@ export default function AiTripPlanner() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
-  const messageLengthRef = useRef(0);
+  const chatContainerRef = useRef(null);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
-    // Only auto-scroll when a NEW message is added, not on re-renders
-    if (messages.length > messageLengthRef.current) {
-      messageLengthRef.current = messages.length;
-      // Defer scroll to next frame to ensure DOM is updated
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 0);
+    if (shouldAutoScroll) {
+      scrollToBottom();
     }
-  }, [messages]);
+  }, [messages, shouldAutoScroll]);
+
+  const handleScroll = (e) => {
+    const element = e.target;
+    const isAtBottom = element.scrollHeight - element.scrollTop - element.clientHeight < 50;
+    setShouldAutoScroll(isAtBottom);
+  };
 
   const sendMessage = async (messageText) => {
     if (!messageText.trim() || isLoading) return;
@@ -103,7 +108,11 @@ export default function AiTripPlanner() {
 
       {/* Chat Area */}
       <Card className="flex-1 flex flex-col overflow-hidden">
-        <ScrollArea className="flex-1 p-4">
+        <div 
+          className="flex-1 overflow-y-auto p-4" 
+          ref={chatContainerRef}
+          onScroll={handleScroll}
+        >
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6">
               <div className="p-4 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-950 dark:to-pink-950 mb-4">
@@ -162,7 +171,7 @@ export default function AiTripPlanner() {
               <div ref={messagesEndRef} />
             </div>
           )}
-        </ScrollArea>
+        </div>
 
         {/* Input Area */}
         <div className="border-t p-4 bg-white dark:bg-zinc-900">
