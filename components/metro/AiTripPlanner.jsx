@@ -17,11 +17,17 @@ export default function AiTripPlanner() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const scrollRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const messageLengthRef = useRef(0);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    // Only auto-scroll when a NEW message is added, not on re-renders
+    if (messages.length > messageLengthRef.current) {
+      messageLengthRef.current = messages.length;
+      // Defer scroll to next frame to ensure DOM is updated
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 0);
     }
   }, [messages]);
 
@@ -97,7 +103,7 @@ export default function AiTripPlanner() {
 
       {/* Chat Area */}
       <Card className="flex-1 flex flex-col overflow-hidden">
-        <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+        <ScrollArea className="flex-1 p-4">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6">
               <div className="p-4 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-950 dark:to-pink-950 mb-4">
@@ -153,6 +159,7 @@ export default function AiTripPlanner() {
                   </div>
                 </div>
               )}
+              <div ref={messagesEndRef} />
             </div>
           )}
         </ScrollArea>
