@@ -2,7 +2,7 @@ import { METRO_SYSTEM_PROMPT, GROQ_MODEL, GROQ_MAX_TOKENS, GROQ_TEMPERATURE } fr
 
 export const maxDuration = 30;
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
     const { messages, systemPrompt } = await req.json();
 
@@ -51,7 +51,7 @@ export async function POST(req) {
   } catch (error) {
     console.error('Server error:', error);
     return Response.json(
-      { error: error.message || 'Internal server error' },
+      { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }
