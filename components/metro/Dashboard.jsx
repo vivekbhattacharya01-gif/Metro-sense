@@ -74,7 +74,7 @@ export default function Dashboard({ setActiveTab }) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 text-white">
+      <Card className="bg-linear-to-r from-blue-600 to-purple-600 border-0 text-white">
         <CardContent className="pt-6">
           <div className="flex justify-between items-start">
             <div>
@@ -117,7 +117,7 @@ export default function Dashboard({ setActiveTab }) {
             <Button
               key={action.tab}
               variant="outline"
-              className={`h-20 flex flex-col items-center justify-center gap-2 bg-gradient-to-br ${action.color} text-white border-0 hover:opacity-90 hover:text-white`}
+              className={`h-20 flex flex-col items-center justify-center gap-2 bg-linear-to-br ${action.color} text-white border-0 hover:opacity-90 hover:text-white`}
               onClick={() => setActiveTab(action.tab)}
             >
               <action.icon className="h-6 w-6" />

@@ -168,7 +168,7 @@ export default function TravelAlarmReal() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-orange-500 to-red-500 border-0 text-white">
+      <Card className="bg-linear-to-r from-orange-500 to-red-500 border-0 text-white">
         <CardContent className="pt-6 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-full bg-white/20">
@@ -228,7 +228,7 @@ export default function TravelAlarmReal() {
           )}
 
           <Button 
-            className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:opacity-90"
+            className="w-full bg-linear-to-r from-orange-500 to-red-500 hover:opacity-90"
             onClick={createAlarm}
             disabled={!selectedStation || !selectedLine}
           >

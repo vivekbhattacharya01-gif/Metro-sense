@@ -76,7 +76,7 @@ export default function RouteFinder() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 border-0 text-white">
+      <Card className="bg-liinear-to-r from-blue-600 to-indigo-600 border-0 text-white">
         <CardContent className="pt-6 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-full bg-white/20">
@@ -132,7 +132,7 @@ export default function RouteFinder() {
           </div>
 
           <Button 
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90"
+            className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:opacity-90"
             onClick={findRoute}
             disabled={!fromStation || !toStation || fromStation === toStation}
           >

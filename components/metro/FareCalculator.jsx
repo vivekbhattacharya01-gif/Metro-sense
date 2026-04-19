@@ -39,7 +39,7 @@ export default function FareCalculator() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-purple-600 to-pink-600 border-0 text-white">
+      <Card className="bg-linear-to-r from-purple-600 to-pink-600 border-0 text-white">
         <CardContent className="pt-6 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-full bg-white/20">
@@ -97,7 +97,7 @@ export default function FareCalculator() {
           </div>
 
           {fare !== null && distance !== null && (
-            <div className="p-4 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 border border-purple-200 dark:border-purple-800">
+            <div className="p-4 rounded-lg bg-linear-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 border border-purple-200 dark:border-purple-800">
               <div className="flex items-baseline gap-2 justify-center">
                 <span className="text-sm text-muted-foreground">{t('fare.estimatedFare')}</span>
                 <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">₹{fare}</span>

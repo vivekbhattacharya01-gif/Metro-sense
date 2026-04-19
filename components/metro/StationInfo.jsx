@@ -25,7 +25,7 @@ export default function StationInfo() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-violet-600 to-purple-600 border-0 text-white">
+      <Card className="bg-linear-to-r from-violet-600 to-purple-600 border-0 text-white">
         <CardContent className="pt-6 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-full bg-white/20">
