@@ -68,7 +68,7 @@ The AI responds with the best route, line names, interchange stations, estimated
 | Layer | Technology |
 |---|---|
 | Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
+| Language | JavaScript |
 | Styling | Tailwind CSS v4 |
 | UI Components | shadcn/ui |
 | AI Model | Groq LLaMA 3.3 70B |
