@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { IndianRupee, ArrowRight, Calculator, Info } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { stations, calculateFare, formatStationName } from '@/lib/metroData.js';
+import { getAllStations, calculateFare, formatStationName } from '@/lib/realMetroService.js';
 import { useLanguage } from '@/lib/language-context';
 import { getRandomInRange } from '@/lib/metroUtils.js';
 
@@ -15,6 +15,11 @@ export default function FareCalculator() {
   const [toStation, setToStation] = useState('');
   const [fare, setFare] = useState(null);
   const [distance, setDistance] = useState(null);
+  const [stations, setStations] = useState([]);
+
+  useEffect(() => {
+    setStations(getAllStations());
+  }, []);
 
   useEffect(() => {
     if (fromStation && toStation && fromStation !== toStation) {
