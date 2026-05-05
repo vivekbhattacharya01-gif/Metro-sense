@@ -92,7 +92,7 @@ export default function AiTripPlanner() {
   return (
     <div className="flex flex-col h-[calc(100vh-180px)] max-h-150">
       {/* Header */}
-      <Card className="bg-linear-to-r from-purple-600 to-pink-600 border-0 text-white mb-4 shrink-0">
+      <Card className="bg-linearw-to-r from-purple-600 to-pink-600 border-0 text-white mb-4 shrink-0">
         <CardContent className="pt-6 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-full bg-white/20">
