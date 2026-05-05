@@ -14,7 +14,7 @@ import {
   Users,
   Zap
 } from 'lucide-react';
-import { metroLines, liveUpdates } from '@/lib/metroData.js';
+import { getAllLines } from '@/lib/realMetroService.js';
 import * as aiService from '@/lib/aiService.js';
 import { useLanguage } from '@/lib/language-context';
 import { useEffect, useState } from 'react';
@@ -44,6 +44,7 @@ export default function Dashboard({ setActiveTab }) {
 
   const hour = currentTime.getHours();
   const peakHour = isPeakHour(currentTime);
+  const metroLines = getAllLines();
 
   const getGreeting = () => {
     if (hour < 12) return t('greeting.morning');

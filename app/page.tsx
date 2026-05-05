@@ -20,9 +20,13 @@ import {
 import { useLanguage } from "@/lib/language-context";
 import Dashboard from "@/components/metro/Dashboard";
 import RealTimeTracker from "@/components/metro/RealTimeTracker";
-import RouteFinder from "@/components/metro/RouteFinder";
-import TravelAlarmReal from "@/components/metro/TravelAlarmReal";
-import FareCalculator from "@/components/metro/FareCalculator";
+import TrainCountdown from '@/components/metro/TrainCountdown';
+import MetroMap from '@/components/metro/MetroMap';
+import RouteFinder from '@/components/metro/RouteFinder';
+import SavedRoutes from '@/components/metro/SavedRoutes';
+import TravelAlarmReal from '@/components/metro/TravelAlarmReal';
+import FareCalculator from '@/components/metro/FareCalculator';
+import FareComparison from '@/components/metro/FareComparison';
 import LiveStatus from "@/components/metro/LiveStatus";
 import StationInfo from "@/components/metro/StationInfo";
 import AiTripPlanner from "@/components/metro/AiTripPlanner";
@@ -94,17 +98,21 @@ export default function MetroSenseApp() {
             <TabsContent value="home" className="mt-0">
               <Dashboard setActiveTab={setActiveTab} />
             </TabsContent>
-            <TabsContent value="tracker" className="mt-0">
+            <TabsContent value="tracker" className="mt-0 space-y-6">
               <RealTimeTracker />
+              <TrainCountdown />
+              <MetroMap />
             </TabsContent>
-            <TabsContent value="route" className="mt-0">
+            <TabsContent value="route" className="mt-0 space-y-6">
               <RouteFinder />
+              <SavedRoutes />
             </TabsContent>
             <TabsContent value="alarm" className="mt-0">
               <TravelAlarmReal />
             </TabsContent>
-            <TabsContent value="fare" className="mt-0">
+            <TabsContent value="fare" className="mt-0 space-y-6">
               <FareCalculator />
+              <FareComparison />
             </TabsContent>
             <TabsContent value="status" className="mt-0">
               <LiveStatus />
