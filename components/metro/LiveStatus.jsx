@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, CheckCircle2, Clock, Train, Radio } from 'lucide-react';
-import { metroLines, liveUpdates } from '@/lib/metroData.js';
+import { getAllLines } from '@/lib/realMetroService.js';
 import * as aiService from '@/lib/aiService.js';
 import { useLanguage } from '@/lib/language-context';
 import { useEffect, useState } from 'react';
@@ -15,13 +15,15 @@ export default function LiveStatus() {
 
   useEffect(() => {
     const updateStatus = () => {
+      const metroLines = getAllLines();
       const data = metroLines.map(metro => {
-        const update = liveUpdates.find(u => u.line === metro.id);
         const delay = aiService.predictDelays(metro.id);
         return {
           line: metro.id,
-          status: update?.status || 'normal',
-          message: update?.message || 'Status unavailable',
+          lineId: metro.id,
+          lineName: metro.name,
+          status: 'normal',
+          message: 'Status unavailable',
           delay
         };
       });
