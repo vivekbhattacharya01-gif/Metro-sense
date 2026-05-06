@@ -12,13 +12,20 @@ import {
   Building2,
   Info
 } from 'lucide-react';
-import { useState } from 'react';
-import { stations, metroLines, getLineColor } from '@/lib/metroData.js';
+import { useState, useEffect } from 'react';
+import { getAllStations, getAllLines, getLineColor } from '@/lib/realMetroService.js';
 import { useLanguage } from '@/lib/language-context';
 
 export default function StationInfo() {
   const { t } = useLanguage();
   const [selectedStation, setSelectedStation] = useState('');
+  const [stations, setStations] = useState([]);
+  const [metroLines, setMetroLines] = useState([]);
+
+  useEffect(() => {
+    setStations(getAllStations());
+    setMetroLines(getAllLines());
+  }, []);
 
   const station = stations.find(s => s.id === selectedStation);
 
@@ -72,34 +79,21 @@ export default function StationInfo() {
             <div 
               className="h-2"
               style={{ 
-                background: `linear-gradient(to right, ${station.lines.map(l => getLineColor(l)).join(', ')})`
+                background: `linear-gradient(to right, ${(station.routes || []).map(l => getLineColor(l)).join(', ')})`
               }}
             />
             <CardContent className="pt-6">
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="text-xl font-bold">{station.name}</h2>
-                  <p className="text-muted-foreground">{t('station.code')}: {station.code}</p>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                  {station.interchange && (
-                    <Badge className="bg-orange-500 hover:bg-orange-500">
-                      <ArrowRightLeft className="h-3 w-3 mr-1" />
-                      {t('station.interchange')}
-                    </Badge>
-                  )}
-                  {station.parkingAvailable && (
-                    <Badge variant="outline" className="text-green-600 dark:text-green-400 border-green-600 dark:border-green-400">
-                      <Car className="h-3 w-3 mr-1" />
-                      {t('station.parking')}
-                    </Badge>
-                  )}
                 </div>
               </div>
 
               {/* Metro Lines */}
               <div className="flex flex-wrap gap-2 mt-4">
-                {station.lines.map((lineId) => {
+                {(station.routes || []).map((lineId) => {
                   const line = metroLines.find(l => l.id === lineId);
                   return (
                     <Badge 
