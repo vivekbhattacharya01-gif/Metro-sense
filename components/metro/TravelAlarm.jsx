@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Bell, Clock, MapPin, Trash2, AlarmClock } from 'lucide-react';
-import { useState } from 'react';
-import { stations, formatStationName } from '@/lib/metroData.js';
+import { useState, useEffect } from 'react';
+import { getAllStations, formatStationName } from '@/lib/realMetroService.js';
 import * as aiService from '@/lib/aiService.js';
 import { useLanguage } from '@/lib/language-context';
 
@@ -16,6 +16,11 @@ export default function TravelAlarm() {
   const [selectedStation, setSelectedStation] = useState('');
   const [arrivalTime, setArrivalTime] = useState('');
   const [alarms, setAlarms] = useState([]);
+  const [stations, setStations] = useState([]);
+
+  useEffect(() => {
+    setStations(getAllStations());
+  }, []);
 
   const createAlarm = () => {
     if (!selectedStation || !arrivalTime) return;
