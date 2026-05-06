@@ -1,17 +1,8 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
 
-type Language = "en" | "hi";
-
-interface Translations {
-  [key: string]: {
-    en: string;
-    hi: string;
-  };
-}
-
-export const translations: Translations = {
+export const translations = {
   // App Header
   "app.title": { en: "MetroSense", hi: "मेट्रोसेंस" },
   "app.subtitle": { en: "Delhi Metro AI Assistant", hi: "दिल्ली मेट्रो AI सहायक" },
@@ -20,11 +11,16 @@ export const translations: Translations = {
   "tab.home": { en: "Home", hi: "होम" },
   "tab.live": { en: "Live", hi: "लाइव" },
   "tab.route": { en: "Route", hi: "रूट" },
+  "tab.smart": { en: "Smart", hi: "स्मार्ट" },
   "tab.alarm": { en: "Alarm", hi: "अलार्म" },
   "tab.fare": { en: "Fare", hi: "किराया" },
   "tab.status": { en: "Status", hi: "स्थिति" },
   "tab.info": { en: "Info", hi: "जानकारी" },
-  "tab.ai": { en: "AI", hi: "AI" },
+  "tab.heatmap": { en: "Crowd", hi: "भीड़" },
+  "tab.analytics": { en: "Stats", hi: "आंकड़े" },
+  "tab.voice": { en: "Voice", hi: "आवाज़" },
+  "tab.ar": { en: "AR", hi: "AR" },
+  "tab.notifications": { en: "Alerts", hi: "अलर्ट" },
   
   // Dashboard
   "greeting.morning": { en: "Good Morning", hi: "शुभ प्रभात" },
@@ -152,20 +148,76 @@ export const translations: Translations = {
   "settings.theme": { en: "Theme", hi: "थीम" },
   "settings.dark": { en: "Dark", hi: "डार्क" },
   "settings.light": { en: "Light", hi: "लाइट" },
+
+  // Predictive Notifications
+  "notifications.title": { en: "Smart Notifications", hi: "स्मार्ट सूचनाएं" },
+  "notifications.subtitle": { en: "AI-powered alerts for your journey", hi: "आपकी यात्रा के लिए AI-संचालित अलर्ट" },
+  "notifications.enabled": { en: "Enabled", hi: "सक्रिय" },
+  "notifications.disabled": { en: "Disabled", hi: "निष्क्रिय" },
+  "notifications.settings": { en: "Notification Settings", hi: "सूचना सेटिंग्स" },
+  "notifications.settings.crowdAlerts": { en: "Crowd Alerts", hi: "भीड़ अलर्ट" },
+  "notifications.settings.delayAlerts": { en: "Delay Alerts", hi: "देरी अलर्ट" },
+  "notifications.settings.routeChanges": { en: "Route Suggestions", hi: "रूट सुझाव" },
+  "notifications.settings.weatherAlerts": { en: "Weather Alerts", hi: "मौसम अलर्ट" },
+  "notifications.settings.maintenanceAlerts": { en: "Maintenance Alerts", hi: "रखरखाव अलर्ट" },
+  "notifications.recent": { en: "Recent Notifications", hi: "हाल की सूचनाएं" },
+  "notifications.noNotifications": { en: "No notifications yet", hi: "अभी तक कोई सूचना नहीं" },
+  "notifications.crowdAlert": { en: "High Crowd Alert", hi: "उच्च भीड़ अलर्ट" },
+  "notifications.delayAlert": { en: "Delay Alert", hi: "देरी अलर्ट" },
+  "notifications.routeSuggestion": { en: "Route Optimization", hi: "रूट अनुकूलन" },
+  "notifications.weatherAlert": { en: "Weather Alert", hi: "मौसम अलर्ट" },
+  "notifications.weatherMessage": { en: "Heavy rain expected. Consider alternative routes.", hi: "भारी बारिश की उम्मीद। वैकल्पिक रूट पर विचार करें।" },
+  "notifications.maintenanceAlert": { en: "Maintenance Work", hi: "रखरखाव कार्य" },
+  "notifications.maintenanceMessage": { en: "Scheduled maintenance on Yellow Line tomorrow.", hi: "पीली लाइन पर कल निर्धारित रखरखाव।" },
+  "notifications.priority.high": { en: "High", hi: "उच्च" },
+  "notifications.priority.medium": { en: "Medium", hi: "मध्यम" },
+  "notifications.priority.low": { en: "Low", hi: "निम्न" },
+
+  // Voice Commands & Accessibility
+  "voice.title": { en: "Voice Commands & Accessibility", hi: "आवाज़ कमांड और पहुंच" },
+  "voice.subtitle": { en: "Control the app with your voice and customize accessibility", hi: "आवाज़ से ऐप को नियंत्रित करें और पहुंच को अनुकूलित करें" },
+  "voice.voiceOn": { en: "Voice On", hi: "आवाज़ चालू" },
+  "voice.voiceOff": { en: "Voice Off", hi: "आवाज़ बंद" },
+  "voice.voiceControl": { en: "Voice Control", hi: "आवाज़ नियंत्रण" },
+  "voice.startListening": { en: "Start Listening", hi: "सुनना शुरू करें" },
+  "voice.stopListening": { en: "Stop Listening", hi: "सुनना बंद करें" },
+  "voice.youSaid": { en: "You said", hi: "आपने कहा" },
+  "voice.listening": { en: "Listening...", hi: "सुन रहा है..." },
+  "voice.accessibility": { en: "Accessibility Settings", hi: "पहुंच सेटिंग्स" },
+  "voice.highContrast": { en: "High Contrast", hi: "उच्च कंट्रास्ट" },
+  "voice.largeText": { en: "Large Text", hi: "बड़ा टेक्स्ट" },
+  "voice.voiceFeedback": { en: "Voice Feedback", hi: "आवाज़ प्रतिक्रिया" },
+  "voice.availableCommands": { en: "Available Voice Commands", hi: "उपलब्ध आवाज़ कमांड" },
+  "voice.commandHistory": { en: "Command History", hi: "कमांड इतिहास" },
+  "voice.noCommands": { en: "No commands used yet", hi: "अभी तक कोई कमांड इस्तेमाल नहीं हुआ" },
+
+  // AR Station Navigation
+  "ar.title": { en: "AR Station Navigation", hi: "AR स्टेशन नेविगेशन" },
+  "ar.subtitle": { en: "Find stations using augmented reality", hi: "ऑगमेंटेड रियलिटी का उपयोग करके स्टेशन खोजें" },
+  "ar.startAR": { en: "Start AR", hi: "AR शुरू करें" },
+  "ar.stopAR": { en: "Stop AR", hi: "AR बंद करें" },
+  "ar.permissions": { en: "Permissions", hi: "अनुमतियां" },
+  "ar.camera": { en: "Camera", hi: "कैमरा" },
+  "ar.location": { en: "Location", hi: "स्थान" },
+  "ar.granted": { en: "Granted", hi: "दिया गया" },
+  "ar.denied": { en: "Denied", hi: "अस्वीकृत" },
+  "ar.prompt": { en: "Prompt", hi: "प्रॉम्प्ट" },
+  "ar.unknown": { en: "Unknown", hi: "अज्ञात" },
+  "ar.nearbyStations": { en: "Nearby Stations", hi: "नजदीकी स्टेशन" },
+  "ar.noNearbyStations": { en: "No nearby stations found", hi: "कोई नजदीकी स्टेशन नहीं मिला" },
+  "ar.instructions": { en: "Instructions", hi: "निर्देश" },
+  "ar.instruction1": { en: "Point your camera at the surroundings", hi: "अपने कैमरे को आसपास की ओर इंगित करें" },
+  "ar.instruction2": { en: "Blue circles show nearby metro stations", hi: "नीले घेरे नजदीकी मेट्रो स्टेशन दिखाते हैं" },
+  "ar.instruction3": { en: "Arrows point towards station entrances", hi: "तीर स्टेशन प्रवेश द्वार की ओर इंगित करते हैं" },
+  "ar.instruction4": { en: "Tap markers for detailed station information", hi: "विस्तृत स्टेशन जानकारी के लिए मार्कर पर टैप करें" },
 };
 
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
-}
+const LanguageContext = createContext(undefined);
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+export function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState("en");
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
-
-  const t = (key: string): string => {
+  const t = (key) => {
     const translation = translations[key];
     if (!translation) return key;
     return translation[language] || translation.en || key;
