@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MapPin, ArrowRight, Clock, IndianRupee, RefreshCcw, Train } from 'lucide-react';
-import { useState } from 'react';
-import { stations, metroLines, formatStationName, calculateFare, getLineColor } from '@/lib/metroData.js';
+import { useState, useEffect } from 'react';
+import { getAllStations, getAllLines, formatStationName, calculateFare, getLineColor } from '@/lib/realMetroService.js';
+import { useBookmarkedRoutes } from '@/hooks/useBookmarkedRoutes.js';
 import { useLanguage } from '@/lib/language-context';
 import { MAIN_INTERCHANGES, getRandomInRange } from '@/lib/metroUtils.js';
 
@@ -15,6 +16,14 @@ export default function RouteFinder() {
   const [fromStation, setFromStation] = useState('');
   const [toStation, setToStation] = useState('');
   const [route, setRoute] = useState(null);
+  const [stations, setStations] = useState([]);
+  const [metroLines, setMetroLines] = useState([]);
+  const bookmarkApi = useBookmarkedRoutes();
+
+  useEffect(() => {
+    setStations(getAllStations());
+    setMetroLines(getAllLines());
+  }, []);
 
   const findRoute = () => {
     if (!fromStation || !toStation || fromStation === toStation) return;
@@ -24,8 +33,8 @@ export default function RouteFinder() {
 
     if (!fromStationData || !toStationData) return;
 
-    const fromLines = fromStationData.lines;
-    const toLines = toStationData.lines;
+    const fromLines = fromStationData.routes || [];
+    const toLines = toStationData.routes || [];
 
     // Check for direct route
     const directLine = fromLines.find(l => toLines.includes(l));
@@ -42,13 +51,20 @@ export default function RouteFinder() {
       const interchange = MAIN_INTERCHANGES.find(int => {
         const intStation = stations.find(s => s.id === int);
         if (!intStation) return false;
-        return fromLines.some(fl => intStation.lines.includes(fl)) && 
-               toLines.some(tl => intStation.lines.includes(tl));
-      }) || 'rajiv-chowk';
+        const intRoutes = intStation.routes || [];
+        return fromLines.some(fl => intRoutes.includes(fl)) && 
+               toLines.some(tl => intRoutes.includes(tl));
+      });
 
-      interchanges = [interchange];
-      lines = [fromLines[0], toLines[0]];
-      stationCount = getRandomInRange(6, 18);
+      if (interchange) {
+        interchanges = [interchange];
+        lines = [fromLines[0], toLines[0]];
+        stationCount = getRandomInRange(6, 18);
+      } else {
+        // If no interchange found, just use the most direct route available
+        lines = [fromLines[0]] || [];
+        stationCount = getRandomInRange(6, 18);
+      }
     }
 
     const distance = stationCount * 1.5;
@@ -58,9 +74,12 @@ export default function RouteFinder() {
     setRoute({
       from: fromStation,
       to: toStation,
+      fromName: fromStationData.name,
+      toName: toStationData.name,
       lines,
       interchanges,
       stationCount,
+      distance,
       estimatedTime,
       fare
     });
@@ -71,6 +90,24 @@ export default function RouteFinder() {
     setFromStation(toStation);
     setToStation(temp);
     setRoute(null);
+  };
+
+  const routeAlreadySaved = route && bookmarkApi.isBookmarked(route.from, route.to);
+
+  const saveCurrentRoute = () => {
+    if (!route) return;
+    bookmarkApi.addRoute({
+      name: `${route.fromName} → ${route.toName}`,
+      from: route.from,
+      fromName: route.fromName,
+      to: route.to,
+      toName: route.toName,
+      lines: route.lines,
+      distance: route.distance,
+      estimatedTime: route.estimatedTime,
+      fare: route.fare,
+      interchanges: route.interchanges
+    });
   };
 
   return (
@@ -197,6 +234,16 @@ export default function RouteFinder() {
               {/* Stations Count */}
               <div className="text-sm text-muted-foreground text-center pt-2">
                 {route.stationCount} {t('route.stationsOnRoute')}
+              </div>
+
+              <div className="flex justify-center pt-4">
+                <Button 
+                  className="bg-linear-to-r from-green-600 to-emerald-600 hover:opacity-90"
+                  onClick={saveCurrentRoute}
+                  disabled={routeAlreadySaved}
+                >
+                  {routeAlreadySaved ? 'Route Saved' : 'Save Route'}
+                </Button>
               </div>
             </CardContent>
           </Card>
