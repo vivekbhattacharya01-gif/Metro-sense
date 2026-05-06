@@ -19,7 +19,9 @@ import {
   Sun,
   Moon,
   Languages,
-  Mic
+  Mic,
+  Camera,
+  CreditCard
 } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import Dashboard from "@/components/metro/Dashboard";
@@ -39,6 +41,8 @@ import SmartRouteOptimization from '@/components/metro/SmartRouteOptimization';
 import AiTripPlanner from '@/components/metro/AiTripPlanner';
 import PredictiveNotifications from '@/components/metro/PredictiveNotifications';
 import VoiceCommands from '@/components/metro/VoiceCommands';
+import ARStationNavigation from '@/components/metro/ARStationNavigation';
+import NFCIntegration from '@/components/metro/NFCIntegration';
 
 export default function MetroSenseApp() {
   const [activeTab, setActiveTab] = useState("home");
@@ -53,6 +57,8 @@ export default function MetroSenseApp() {
     { id: "alarm", labelKey: "tab.alarm", icon: Bell },
     { id: "notifications", labelKey: "tab.notifications", icon: Bell },
     { id: "voice", labelKey: "tab.voice", icon: Mic },
+    { id: "ar", labelKey: "tab.ar", icon: Camera },
+    { id: "nfc", labelKey: "tab.nfc", icon: CreditCard },
     { id: "fare", labelKey: "tab.fare", icon: IndianRupee },
     { id: "status", labelKey: "tab.status", icon: AlertCircle },
     { id: "station", labelKey: "tab.info", icon: Info },
@@ -132,6 +138,12 @@ export default function MetroSenseApp() {
             </TabsContent>
             <TabsContent value="voice" className="mt-0">
               <VoiceCommands />
+            </TabsContent>
+            <TabsContent value="ar" className="mt-0">
+              <ARStationNavigation />
+            </TabsContent>
+            <TabsContent value="nfc" className="mt-0">
+              <NFCIntegration />
             </TabsContent>
             <TabsContent value="fare" className="mt-0 space-y-6">
               <FareCalculator />

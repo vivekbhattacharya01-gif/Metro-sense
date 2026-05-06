@@ -17,18 +17,26 @@ import {
 import { getAllLines } from '@/lib/realMetroService.js';
 import * as aiService from '@/lib/aiService.js';
 import { useLanguage } from '@/lib/language-context';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { isPeakHour, getCrowdLevelColor } from '@/lib/metroUtils.js';
 
 export default function Dashboard({ setActiveTab }) {
   const { t } = useLanguage();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(null);
   const [crowdPrediction, setCrowdPrediction] = useState(null);
   const [delayPrediction, setDelayPrediction] = useState(null);
   const [trainArrival, setTrainArrival] = useState(null);
+  const [liveUpdates, setLiveUpdates] = useState([]);
 
-  // Update time every second
+  // Define constants early
+  const metroLines = useMemo(() => getAllLines(), []);
+  const hour = currentTime ? currentTime.getHours() : 8;
+  const peakHour = currentTime ? isPeakHour(currentTime) : false;
+
+  // Update time every second after hydration
   useEffect(() => {
+    setCurrentTime(new Date());
+
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -37,14 +45,21 @@ export default function Dashboard({ setActiveTab }) {
 
   // Load initial predictions
   useEffect(() => {
+    const lines = getAllLines();
     setCrowdPrediction(aiService.predictCrowdLevel('rajiv-chowk', 'blue'));
     setDelayPrediction(aiService.predictDelays('red'));
     setTrainArrival(aiService.predictTrainArrival('rajiv-chowk', 'blue'));
+    
+    // Generate live updates for all metro lines
+    const updates = lines.map(line => {
+      const delayPrediction = aiService.predictDelays(line.id);
+      return {
+        line: line.id,
+        status: delayPrediction.probability < 30 ? 'normal' : 'delayed'
+      };
+    });
+    setLiveUpdates(updates);
   }, []);
-
-  const hour = currentTime.getHours();
-  const peakHour = isPeakHour(currentTime);
-  const metroLines = getAllLines();
 
   const getGreeting = () => {
     if (hour < 12) return t('greeting.morning');
@@ -83,8 +98,8 @@ export default function Dashboard({ setActiveTab }) {
               <p className="text-blue-100 mt-1">{t('dashboard.welcome')}</p>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold">{formatTime(currentTime)}</div>
-              <div className="text-blue-100 text-sm">{formatDate(currentTime)}</div>
+              <div className="text-3xl font-bold">{currentTime ? formatTime(currentTime) : '--:--'}</div>
+              <div className="text-blue-100 text-sm">{currentTime ? formatDate(currentTime) : 'Loading...'}</div>
             </div>
           </div>
         </CardContent>

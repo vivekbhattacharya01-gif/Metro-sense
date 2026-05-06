@@ -20,6 +20,7 @@ export const translations = {
   "tab.analytics": { en: "Stats", hi: "आंकड़े" },
   "tab.voice": { en: "Voice", hi: "आवाज़" },
   "tab.ar": { en: "AR", hi: "AR" },
+  "tab.nfc": { en: "NFC", hi: "NFC" },
   "tab.notifications": { en: "Alerts", hi: "अलर्ट" },
   
   // Dashboard
@@ -210,6 +211,34 @@ export const translations = {
   "ar.instruction2": { en: "Blue circles show nearby metro stations", hi: "नीले घेरे नजदीकी मेट्रो स्टेशन दिखाते हैं" },
   "ar.instruction3": { en: "Arrows point towards station entrances", hi: "तीर स्टेशन प्रवेश द्वार की ओर इंगित करते हैं" },
   "ar.instruction4": { en: "Tap markers for detailed station information", hi: "विस्तृत स्टेशन जानकारी के लिए मार्कर पर टैप करें" },
+
+  // NFC/Contactless Integration
+  "nfc.title": { en: "NFC & Contactless Payment", hi: "NFC और कॉन्टैक्टलेस भुगतान" },
+  "nfc.subtitle": { en: "Scan your metro card and manage payments", hi: "अपना मेट्रो कार्ड स्कैन करें और भुगतान प्रबंधित करें" },
+  "nfc.supported": { en: "NFC Supported", hi: "NFC समर्थित" },
+  "nfc.notSupported": { en: "NFC Not Supported", hi: "NFC समर्थित नहीं" },
+  "nfc.cardReader": { en: "Card Reader", hi: "कार्ड रीडर" },
+  "nfc.readyToScan": { en: "Ready to Scan", hi: "स्कैन करने के लिए तैयार" },
+  "nfc.scanning": { en: "Scanning...", hi: "स्कैन हो रहा है..." },
+  "nfc.scanCard": { en: "Scan Card", hi: "कार्ड स्कैन करें" },
+  "nfc.cardDetected": { en: "Card Detected", hi: "कार्ड पता चला" },
+  "nfc.scanError": { en: "Scan Error", hi: "स्कैन त्रुटि" },
+  "nfc.cardRead": { en: "Card Read Successfully", hi: "कार्ड सफलतापूर्वक पढ़ा गया" },
+  "nfc.cardNumber": { en: "Card Number", hi: "कार्ड संख्या" },
+  "nfc.balance": { en: "Balance", hi: "बैलेंस" },
+  "nfc.expiry": { en: "Expiry Date", hi: "समाप्ति तिथि" },
+  "nfc.tripsToday": { en: "Trips Today", hi: "आज की यात्राएं" },
+  "nfc.quickActions": { en: "Quick Top-up", hi: "त्वरित टॉप-अप" },
+  "nfc.topUpNote": { en: "Instant top-up with secure payment methods", hi: "सुरक्षित भुगतान विधियों के साथ त्वरित टॉप-अप" },
+  "nfc.transactionHistory": { en: "Transaction History", hi: "लेन-देन इतिहास" },
+  "nfc.topUp": { en: "Top-up", hi: "टॉप-अप" },
+  "nfc.entry": { en: "Entry", hi: "प्रवेश" },
+  "nfc.exit": { en: "Exit", hi: "निकास" },
+  "nfc.howItWorks": { en: "How It Works", hi: "यह कैसे काम करता है" },
+  "nfc.info1": { en: "Place your NFC-enabled metro card near the device", hi: "अपने NFC-सक्षम मेट्रो कार्ड को डिवाइस के पास रखें" },
+  "nfc.info2": { en: "The app will automatically read card information and balance", hi: "ऐप स्वचालित रूप से कार्ड जानकारी और बैलेंस पढ़ेगा" },
+  "nfc.info3": { en: "Top-up your card instantly or view transaction history", hi: "अपने कार्ड को तुरंत टॉप-अप करें या लेन-देन इतिहास देखें" },
+  "nfc.info4": { en: "Secure contactless payments for seamless travel", hi: "सहज यात्रा के लिए सुरक्षित कॉन्टैक्टलेस भुगतान" },
 };
 
 const LanguageContext = createContext(undefined);
