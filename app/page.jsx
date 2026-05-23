@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme } from "next-themes";
+import { useTheme } from '@/components/theme-provider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { 
@@ -24,6 +24,7 @@ import {
   CreditCard
 } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
+import ThemeDebug from '@/components/ui/theme-debug'
 import Dashboard from "@/components/metro/Dashboard";
 import RealTimeTracker from "@/components/metro/RealTimeTracker";
 import TrainCountdown from '@/components/metro/TrainCountdown';
@@ -172,6 +173,7 @@ export default function MetroSenseApp() {
             ))}
           </TabsList>
         </Tabs>
+        {process.env.NODE_ENV !== 'production' && <ThemeDebug />}
       </div>
     </div>
   );

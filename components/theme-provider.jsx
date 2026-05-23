@@ -1,66 +1,91 @@
 'use client'
 
 import * as React from 'react'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useRef } from 'react'
 
 const ThemeContext = createContext({
   theme: 'system',
   setTheme: () => {}
 })
 
-const getPreferredTheme = () => {
+function getSystemTheme() {
   if (typeof window === 'undefined') return 'light'
-
-  const stored = window.localStorage.getItem('theme')
-  if (stored) return stored
-
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
-const applyThemeClass = (theme) => {
-  if (typeof document === 'undefined') return
-
-  const root = document.documentElement
-  root.classList.remove('light', 'dark')
-
-  if (theme === 'system') {
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    root.classList.add(systemTheme)
-  } else {
-    root.classList.add(theme)
-  }
-}
-
-export function ThemeProvider({ children, defaultTheme = 'system', enableSystem = true }) {
+export function ThemeProvider({
+  children,
+  defaultTheme = 'system',
+  enableSystem = true,
+  attribute = 'class',
+  disableTransitionOnChange = true,
+}) {
   const [theme, setThemeState] = useState(defaultTheme)
+  const mediaRef = useRef(null)
+
+  // apply theme to document (supports attribute='class' or attribute='data-theme')
+  const applyTheme = (value) => {
+    if (typeof document === 'undefined') return
+
+    const root = document.documentElement
+
+    // temporarily disable transitions to avoid flash
+    if (disableTransitionOnChange) {
+      root.classList.add('disable-theme-transition')
+      // remove after next paint
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        root.classList.remove('disable-theme-transition')
+      }))
+    }
+
+    const resolved = value === 'system' ? getSystemTheme() : value
+
+    if (attribute === 'class') {
+      root.classList.remove('light', 'dark')
+      root.classList.add(resolved)
+    } else {
+      root.setAttribute(attribute, resolved)
+    }
+  }
 
   useEffect(() => {
-    const initialTheme = getPreferredTheme()
-    setThemeState(initialTheme === 'dark' || initialTheme === 'light' ? initialTheme : defaultTheme)
-    applyThemeClass(initialTheme)
+    if (typeof window === 'undefined') return
+
+    const stored = window.localStorage.getItem('theme')
+    if (stored) {
+      setThemeState(stored)
+      applyTheme(stored)
+    } else if (enableSystem) {
+      setThemeState('system')
+      applyTheme('system')
+    } else {
+      const sys = getSystemTheme()
+      setThemeState(sys)
+      applyTheme(sys)
+    }
 
     if (enableSystem) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = () => {
-        if (theme === 'system') {
-          applyThemeClass('system')
-        }
+      const mq = window.matchMedia('(prefers-color-scheme: dark)')
+      const handler = () => {
+        // only respond when using system theme
+        if (theme === 'system') applyTheme('system')
       }
-      mediaQuery.addEventListener?.('change', handleChange)
-      mediaQuery.addListener?.(handleChange)
+      // store ref for cleanup
+      mediaRef.current = handler
+      mq.addEventListener?.('change', handler)
+      mq.addListener?.(handler)
       return () => {
-        mediaQuery.removeEventListener?.('change', handleChange)
-        mediaQuery.removeListener?.(handleChange)
+        mq.removeEventListener?.('change', handler)
+        mq.removeListener?.(handler)
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const setTheme = (value) => {
     setThemeState(value)
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('theme', value)
-    }
-    applyThemeClass(value)
+    if (typeof window !== 'undefined') window.localStorage.setItem('theme', value)
+    applyTheme(value)
   }
 
   return (
