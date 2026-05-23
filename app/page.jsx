@@ -38,7 +38,7 @@ import LiveStatus from "@/components/metro/LiveStatus";
 // import CrowdHeatmap from '@/components/metro/CrowdHeatmap';
 // import JourneyAnalytics from '@/components/metro/JourneyAnalytics';
 // import SmartRouteOptimization from '@/components/metro/SmartRouteOptimization';
-// import AiTripPlanner from '@/components/metro/AiTripPlanner';
+import AiTripPlanner from '@/components/metro/AiTripPlanner';
 // import PredictiveNotifications from '@/components/metro/PredictiveNotifications';
 // import VoiceCommands from '@/components/metro/VoiceCommands';
 // import ARStationNavigation from '@/components/metro/ARStationNavigation';
@@ -56,6 +56,7 @@ export default function MetroSenseApp() {
     { id: "alarm", labelKey: "tab.alarm", icon: Bell },
     { id: "fare", labelKey: "tab.fare", icon: IndianRupee },
     { id: "status", labelKey: "tab.status", icon: AlertCircle },
+    { id: "ai", labelKey: "tab.ai", icon: Bot },
   ];
 
   const toggleTheme = () => {
@@ -143,6 +144,9 @@ export default function MetroSenseApp() {
             <TabsContent value="status" className="mt-0">
               <LiveStatus />
             </TabsContent>
+            <TabsContent value="ai" className="mt-0">
+              <AiTripPlanner />
+            </TabsContent>
             {/* <TabsContent value="station" className="mt-0">
               <StationInfo />
             </TabsContent>
@@ -151,22 +155,19 @@ export default function MetroSenseApp() {
             </TabsContent>
             <TabsContent value="analytics" className="mt-0">
               <JourneyAnalytics />
-            </TabsContent>
-            <TabsContent value="ai" className="mt-0">
-              <AiTripPlanner />
             </TabsContent> */}
           </div>
 
           {/* Bottom Navigation */}
-          <TabsList className="fixed bottom-0 left-0 right-0 h-16 bg-background/95 backdrop-blur-lg border-t grid grid-cols-6 rounded-none shadow-lg">
+          <TabsList className="fixed bottom-0 left-0 right-0 h-14 bg-background/95 backdrop-blur-lg border-t grid grid-cols-7 rounded-none shadow-lg">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.id}
                 value={tab.id}
-                className="flex flex-col items-center justify-center gap-1 data-[state=active]:bg-primary/10 data-[state=active]:text-primary rounded-none h-full"
+                className="flex flex-col items-center justify-center gap-0.5 data-[state=active]:bg-primary/10 data-[state=active]:text-primary rounded-none h-full"
               >
-                <tab.icon className="h-5 w-5" />
-                <span className="text-[10px] font-medium">{t(tab.labelKey)}</span>
+                <tab.icon className="h-4 w-4" />
+                <span className="text-[9px] font-medium leading-tight">{t(tab.labelKey)}</span>
               </TabsTrigger>
             ))}
           </TabsList>
