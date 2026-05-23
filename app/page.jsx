@@ -34,15 +34,15 @@ import TravelAlarmReal from '@/components/metro/TravelAlarmReal';
 import FareCalculator from '@/components/metro/FareCalculator';
 import FareComparison from '@/components/metro/FareComparison';
 import LiveStatus from "@/components/metro/LiveStatus";
-import StationInfo from "@/components/metro/StationInfo";
-import CrowdHeatmap from '@/components/metro/CrowdHeatmap';
-import JourneyAnalytics from '@/components/metro/JourneyAnalytics';
-import SmartRouteOptimization from '@/components/metro/SmartRouteOptimization';
-import AiTripPlanner from '@/components/metro/AiTripPlanner';
-import PredictiveNotifications from '@/components/metro/PredictiveNotifications';
-import VoiceCommands from '@/components/metro/VoiceCommands';
-import ARStationNavigation from '@/components/metro/ARStationNavigation';
-import NFCIntegration from '@/components/metro/NFCIntegration';
+// import StationInfo from "@/components/metro/StationInfo";
+// import CrowdHeatmap from '@/components/metro/CrowdHeatmap';
+// import JourneyAnalytics from '@/components/metro/JourneyAnalytics';
+// import SmartRouteOptimization from '@/components/metro/SmartRouteOptimization';
+// import AiTripPlanner from '@/components/metro/AiTripPlanner';
+// import PredictiveNotifications from '@/components/metro/PredictiveNotifications';
+// import VoiceCommands from '@/components/metro/VoiceCommands';
+// import ARStationNavigation from '@/components/metro/ARStationNavigation';
+// import NFCIntegration from '@/components/metro/NFCIntegration';
 
 export default function MetroSenseApp() {
   const [activeTab, setActiveTab] = useState("home");
@@ -53,18 +53,9 @@ export default function MetroSenseApp() {
     { id: "home", labelKey: "tab.home", icon: Home },
     { id: "tracker", labelKey: "tab.live", icon: Radio },
     { id: "route", labelKey: "tab.route", icon: MapPin },
-    { id: "smart-route", labelKey: "tab.smart", icon: Navigation },
     { id: "alarm", labelKey: "tab.alarm", icon: Bell },
-    { id: "notifications", labelKey: "tab.notifications", icon: Bell },
-    { id: "voice", labelKey: "tab.voice", icon: Mic },
-    { id: "ar", labelKey: "tab.ar", icon: Camera },
-    { id: "nfc", labelKey: "tab.nfc", icon: CreditCard },
     { id: "fare", labelKey: "tab.fare", icon: IndianRupee },
     { id: "status", labelKey: "tab.status", icon: AlertCircle },
-    { id: "station", labelKey: "tab.info", icon: Info },
-    { id: "heatmap", labelKey: "tab.heatmap", icon: Users },
-    { id: "analytics", labelKey: "tab.analytics", icon: TrendingUp },
-    { id: "ai", labelKey: "tab.ai", icon: Bot },
   ];
 
   const toggleTheme = () => {
@@ -127,13 +118,13 @@ export default function MetroSenseApp() {
               <RouteFinder />
               <SavedRoutes />
             </TabsContent>
-            <TabsContent value="smart-route" className="mt-0">
+            {/* <TabsContent value="smart-route" className="mt-0">
               <SmartRouteOptimization />
-            </TabsContent>
+            </TabsContent> */}
             <TabsContent value="alarm" className="mt-0">
               <TravelAlarmReal />
             </TabsContent>
-            <TabsContent value="notifications" className="mt-0">
+            {/* <TabsContent value="notifications" className="mt-0">
               <PredictiveNotifications />
             </TabsContent>
             <TabsContent value="voice" className="mt-0">
@@ -144,7 +135,7 @@ export default function MetroSenseApp() {
             </TabsContent>
             <TabsContent value="nfc" className="mt-0">
               <NFCIntegration />
-            </TabsContent>
+            </TabsContent> */}
             <TabsContent value="fare" className="mt-0 space-y-6">
               <FareCalculator />
               <FareComparison />
@@ -152,7 +143,7 @@ export default function MetroSenseApp() {
             <TabsContent value="status" className="mt-0">
               <LiveStatus />
             </TabsContent>
-            <TabsContent value="station" className="mt-0">
+            {/* <TabsContent value="station" className="mt-0">
               <StationInfo />
             </TabsContent>
             <TabsContent value="heatmap" className="mt-0">
@@ -163,11 +154,11 @@ export default function MetroSenseApp() {
             </TabsContent>
             <TabsContent value="ai" className="mt-0">
               <AiTripPlanner />
-            </TabsContent>
+            </TabsContent> */}
           </div>
 
           {/* Bottom Navigation */}
-          <TabsList className="fixed bottom-0 left-0 right-0 h-16 bg-background/95 backdrop-blur-lg border-t grid grid-cols-11 rounded-none shadow-lg">
+          <TabsList className="fixed bottom-0 left-0 right-0 h-16 bg-background/95 backdrop-blur-lg border-t grid grid-cols-6 rounded-none shadow-lg">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.id}
