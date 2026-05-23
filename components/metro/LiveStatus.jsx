@@ -12,10 +12,10 @@ export default function LiveStatus() {
   const { t } = useLanguage();
   const [statusData, setStatusData] = useState([]);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+  const metroLines = getAllLines();
 
   useEffect(() => {
     const updateStatus = () => {
-      const metroLines = getAllLines();
       const data = metroLines.map(metro => {
         const delay = aiService.predictDelays(metro.id);
         return {
